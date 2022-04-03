@@ -30,7 +30,7 @@ const getUser = async (req, res) => {
     } else {
       return res
         .status(200)
-        .json({ message: 'GET_USERDATA_SUCESS', hasEmailInDB: hasEmailInDB });
+        .json({ message: 'GET_USERDATA_SUCESS', hasEmail: hasEmailInDB });
     }
   }
 };

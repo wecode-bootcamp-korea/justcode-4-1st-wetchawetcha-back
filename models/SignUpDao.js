@@ -5,7 +5,7 @@ const getUserByEmail = async email => {
   return await prisma.$queryRaw`
 		SELECT id FROM users WHERE email = ${email}
 	`;
-};ßß
+};
 
 const createUser = async (email, encryptedPW, username) => {
   return await prisma.$queryRaw`
