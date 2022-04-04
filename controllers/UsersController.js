@@ -1,5 +1,5 @@
 const { use } = require('../routes');
-const SignUpService = require('../services/SignUpService');
+const UsersService = require('../services/UsersService');
 
 const signUp = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const signUp = async (req, res) => {
       throw error;
     }
 
-    await SignUpService.signUp(email, password, name);
+    await UsersService.signUp(email, password, name);
 
     res.status(201).json({ message: 'SIGNUP_SUCESS' });
   } catch (err) {
@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
 
 const getUser = async (req, res) => {
   if (req.query.email != undefined) {
-    const hasEmailInDB = await SignUpService.checkEmail(req.query.email);
+    const hasEmailInDB = await UsersService.checkEmail(req.query.email);
     if (hasEmailInDB == true) {
       return res
         .status(200)
