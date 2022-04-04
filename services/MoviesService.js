@@ -1,7 +1,7 @@
-const SimilarMovieDao = require('../models/MoviesDao')
+const MoviesDao = require('../models/MoviesDao')
 
 const getMoviesByGenre= async (genreId) => {
-	return await SimilarMovieDao.getMoviesByGenre(genreId)
+	return await MoviesDao.getMoviesByGenre(genreId)
 }
 
 
