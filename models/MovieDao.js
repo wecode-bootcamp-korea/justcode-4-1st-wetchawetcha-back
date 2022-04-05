@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getMoviesByGenre = async genreId => {
+const getMovieByGenre = async genreId => {
   return await prisma.$queryRaw`
     SELECT
     movies.id AS id,
@@ -17,5 +17,5 @@ const getMoviesByGenre = async genreId => {
 };
 
 module.exports = {
-  getMoviesByGenre,
+  getMovieByGenre,
 };
