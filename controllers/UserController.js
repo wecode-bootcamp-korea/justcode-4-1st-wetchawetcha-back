@@ -1,5 +1,5 @@
 const { use } = require('../routes');
-const UsersService = require('../services/UsersService');
+const UsersService = require('../services/UserService');
 
 const signUp = async (req, res) => {
   try {

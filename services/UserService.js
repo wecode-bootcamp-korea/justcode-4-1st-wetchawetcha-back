@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const UsersDao = require('../models/UsersDao');
+const UserDao = require('../models/UserDao');
 
 const signUp = async (email, password, username) => {
   if (password.length < 8) {
@@ -9,7 +9,7 @@ const signUp = async (email, password, username) => {
     throw error;
   }
 
-  const user = await UsersDao.getUserByEmail(email);
+  const user = await UserDao.getUserByEmail(email);
 
   if (user.length !== 0) {
     const error = new Error('EXISTING_USER');
@@ -19,13 +19,13 @@ const signUp = async (email, password, username) => {
 
   const encryptedPW = bcrypt.hashSync(password, bcrypt.genSaltSync());
 
-  const newUser = await UsersDao.createUser(email, encryptedPW, username);
+  const newUser = await UserDao.createUser(email, encryptedPW, username);
 
   return newUser;
 };
 
 const checkEmail = async email => {
-  const user = await UsersDao.getUserByEmail(email);
+  const user = await UserDao.getUserByEmail(email);
   if (user.length == 0) {
     return false;
   } else {
