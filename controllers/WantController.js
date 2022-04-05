@@ -10,11 +10,36 @@ const want = async (req, res, next) => {
 
         //const userId = req.headers.userid;
         //임시유저세팅
+        const userId = 2;
+
+        const wantInfo = await wantService.getWant(movieId, userId);
+
+        res.status(200).json({wantInfo : wantInfo});
+    } catch (error) {
+        next(error);
+        await prisma.$disconnect();
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
+
+/*
+    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
+*/
+const createWant = async (req, res, next) => {
+
+    try {
+        const { movieId } = req.body;
+
+        //const userId = req.headers.userid;
+        //임시유저세팅
         const userId = 1;
 
-        const wantInfo = await wantService.getWant();
+        await wantService.wantCheck(movieId, userId, res);
+        await wantService.createWant(movieId, userId);
 
-        res.status(201).json({message : "create WantTo"});
+        res.status(201).json({message : "create want"});
     } catch (error) {
         next(error);
         await prisma.$disconnect();
@@ -27,42 +52,17 @@ const want = async (req, res, next) => {
 /*
     -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
 */
-const CreateWant = async (req, res, next) => {
+const updateWant = async (req, res, next) => {
 
     try {
         const { movieId } = req.body;
 
         //const userId = req.headers.userid;
         //임시유저세팅
-        const userId = 9;
+        const userId = 1;
 
-        await WantService.WantCheck(movieId, userId, res);
-        await WantService.CreateWant(movieId, userId);
-
-        res.status(201).json({message : "create WantTo"});
-    } catch (error) {
-        next(error);
-        await prisma.$disconnect();
-    } finally {
-        await prisma.$disconnect();
-    }
-
-}
-
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
-*/
-const UpdateWant = async (req, res, next) => {
-
-    try {
-        const { movieId } = req.body;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 9;
-
-        await WantService.WantCheck(movieId, userId, res);
-        await WantService.UpdateWant(movieId, userId);
+        await wantService.wantCheck(movieId, userId, res);
+        await wantService.updateWant(movieId, userId);
 
         res.status(200).json({message : "update WantTo"});
     } catch (error) {
@@ -78,4 +78,4 @@ const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { error, CreateWant, UpdateWant, want }
+module.exports = { error, createWant, updateWant, want }

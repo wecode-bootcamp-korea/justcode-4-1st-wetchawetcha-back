@@ -1,10 +1,17 @@
-const WantDao = require("../models/WantDao");
+const wantDao = require("../models/WantDao");
 const errService = require("./errorService");
 
-const WantCheck = async (movieId, userId, res) => {
+const getWant = async (movieId, userId) => {
+    if(userId === undefined || userId === null) {
+        return null;
+    }
+    return await wantDao.getWantDao(movieId, userId);
+}
+
+const wantCheck = async (movieId, userId, res) => {
     const movie = await getmovie(movieId);
 
-    if(movie.length === 0) {       
+    if(movie.length === 0) {
         errService.errorHandler(400, "BAD_REQUEST", res);
     }    
     const user = await getuser(userId);
@@ -15,19 +22,19 @@ const WantCheck = async (movieId, userId, res) => {
 }
 
 const getuser = async (userId) => {
-    return await WantDao.getuserDao(userId);
+    return await wantDao.getuserDao(userId);
 }
 
 const getmovie = async (movieId) => {
-    return await WantDao.getmovieDao(movieId);
+    return await wantDao.getmovieDao(movieId);
 }
 
-const CreateWant = async (movieId, userId) => {
-    await WantDao.CreateWantDao(movieId, userId);
+const createWant = async (movieId, userId) => {
+    await wantDao.createWantDao(movieId, userId);
 }
 
-const UpdateWant = async (movieId, userId) => {
-    await WantDao.UpdateWantDao(movieId, userId);
+const updateWant = async (movieId, userId) => {
+    await wantDao.updateWantDao(movieId, userId);
 }
 
-module.exports = { WantCheck, CreateWant, UpdateWant }
+module.exports = { wantCheck, createWant, updateWant, getWant }
