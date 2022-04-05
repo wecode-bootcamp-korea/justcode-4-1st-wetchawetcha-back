@@ -1,7 +1,7 @@
 const movieDao = require("../models/MovieDao");
 const errService = require("./errorService");
 
-const getWatchaCollection = async (partitionLimit) => {
+const getWatchaCollection = async (partitionLimit, res) => {
     if(partitionLimit <= 0 || partitionLimit > 12) {
         errService.errorHandler(400, "BAD_REQUEST", res);
     }

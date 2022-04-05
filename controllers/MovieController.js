@@ -8,7 +8,7 @@ const watchaCollection = async (req, res, next) => {
     try {
         const { partitionLimit } = req.query;
 
-        const watchaCollectionData = await movieService.getWatchaCollection(partitionLimit);
+        const watchaCollectionData = await movieService.getWatchaCollection(partitionLimit, res);
         
         res.status(200).json({watchaCollectionData : watchaCollectionData});
     } catch (error) {
