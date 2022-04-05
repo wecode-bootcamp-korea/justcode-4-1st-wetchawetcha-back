@@ -1,4 +1,4 @@
-const CarouselCategory = require("../services/CarouselApiService");
+const CarouselCategory = require("../services/MovieService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();

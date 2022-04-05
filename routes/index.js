@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const testRouter = require("./testRoute");
-const MainRoute = require("./MainRoute");
+const MovieRoute = require("./MovieRoute");
 
 router.use("/test", testRouter);
-router.use("/Main", MainRoute);
+router.use("/Movie", MovieRoute);
 
 module.exports = router;

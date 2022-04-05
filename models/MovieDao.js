@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const CategoryData = async (CategoryId, limit) => {
   const selectcategories = await prisma.$queryRaw`
     SELECT 
-    A.poster_url, A.release_date , B.country_name ,C.count , D.category_name 
+    A.poster_url, A.release_date, A.name , B.country_name ,C.count , D.category_name 
     FROM movies A
     join movies_country B on  A.country_id = B.id
     left join ratings C on A.id = C.movie_id 

@@ -1,4 +1,4 @@
-const CarouselApiDao = require("../models/CarouselApiDao");
+const CarouselApiDao = require("../models/MovieDao");
 const errService = require("./errorService");
 
 const CarouselCategory = async (CategoryId, limit, res) => {
