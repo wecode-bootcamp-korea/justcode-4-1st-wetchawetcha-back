@@ -7,7 +7,7 @@ const testRouter = require("./testRoute");
 const MovieRoute = require("./MovieRoute");
 
 router.use("/test", testRouter);
-router.use("/Movie", MovieRoute);
+router.use("/movie", MovieRoute);
 router.use('/user', UserRouter);
 
 

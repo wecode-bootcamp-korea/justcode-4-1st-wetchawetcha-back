@@ -1,16 +1,15 @@
-const CarouselCategory = require("../services/MovieService");
+const MovieService = require("../services/MovieService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const Carousel = async (req, res, next) => {
+const SearchMoviesByKeyword = async (req, res, next) => {
   try {
-    const CarouselData = await CarouselCategory.CarouselCategory(
-      req.query.CategoryId,
-      req.query.limit
+    const MovieDatas = await MovieService.SearchMoviesByKeyword(
+      req.query.search
     );
 
-    res.status(201).json({ CarouselData });
+    res.status(201).json({ MovieDatas });
   } catch (error) {
     next(error);
     await prisma.$disconnect();
@@ -23,4 +22,4 @@ const error = (err, req, res, next) => {
   console.error(err);
 };
 
-module.exports = { error, Carousel };
+module.exports = { error, SearchMoviesByKeyword };

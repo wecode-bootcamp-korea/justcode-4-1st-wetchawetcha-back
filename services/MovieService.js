@@ -1,10 +1,9 @@
-const CarouselApiDao = require("../models/MovieDao");
+const MovieDao = require("../models/MovieDao");
 const errService = require("./errorService");
 
-const CarouselCategory = async (CategoryId, limit, res) => {
-  const CategoryData = await CarouselApiDao.CategoryData(CategoryId, limit);
-
-  return CategoryData;
+const SearchMoviesByKeyword = async (keyword) => {
+  const MovieDatas = await MovieDao.getMovies_Search(keyword);
+  return MovieDatas;
 };
 
-module.exports = { CarouselCategory };
+module.exports = { SearchMoviesByKeyword };
