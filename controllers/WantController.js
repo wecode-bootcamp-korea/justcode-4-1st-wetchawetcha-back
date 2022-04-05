@@ -1,7 +1,28 @@
-const WantService = require("../services/WantService");
+const wantService = require("../services/WantService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+
+const want = async (req, res, next) => {
+
+    try {
+        const { movieId } = req.params;
+
+        //const userId = req.headers.userid;
+        //임시유저세팅
+        const userId = 1;
+
+        const wantInfo = await wantService.getWant();
+
+        res.status(201).json({message : "create WantTo"});
+    } catch (error) {
+        next(error);
+        await prisma.$disconnect();
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
 
 /*
     -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
@@ -57,4 +78,4 @@ const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { error, CreateWant, UpdateWant }
+module.exports = { error, CreateWant, UpdateWant, want }
