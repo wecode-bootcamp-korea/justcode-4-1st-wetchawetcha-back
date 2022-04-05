@@ -10,7 +10,7 @@ const want = async (req, res, next) => {
 
         //const userId = req.headers.userid;
         //임시유저세팅
-        const userId = 2;
+        const userId = undefined;
 
         const wantInfo = await wantService.getWant(movieId, userId);
 
@@ -55,14 +55,14 @@ const createWant = async (req, res, next) => {
 const updateWant = async (req, res, next) => {
 
     try {
-        const { movieId } = req.body;
+        const { movieId, wantVal } = req.body;
 
         //const userId = req.headers.userid;
         //임시유저세팅
         const userId = 1;
 
         await wantService.wantCheck(movieId, userId, res);
-        await wantService.updateWant(movieId, userId);
+        await wantService.updateWant(movieId, userId, wantVal);
 
         res.status(200).json({message : "update WantTo"});
     } catch (error) {

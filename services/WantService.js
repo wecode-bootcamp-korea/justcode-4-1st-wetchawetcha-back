@@ -33,8 +33,8 @@ const createWant = async (movieId, userId) => {
     await wantDao.createWantDao(movieId, userId);
 }
 
-const updateWant = async (movieId, userId) => {
-    await wantDao.updateWantDao(movieId, userId);
+const updateWant = async (movieId, userId, wantVal) => {
+    await wantDao.updateWantDao(movieId, userId, wantVal);
 }
 
 module.exports = { wantCheck, createWant, updateWant, getWant }
