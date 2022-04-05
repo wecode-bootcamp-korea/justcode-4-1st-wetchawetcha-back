@@ -18,4 +18,12 @@ const getMovieDao = async (id) => {
     where mo.id = ${id}`;
 }
 
-module.exports = { getMovieDao }
+const getmovieImagesDao = async (id) => {
+    return prisma.$queryRaw`
+    select 
+        url images_url 
+    from images 
+    where movie_id = ${id}`;
+}
+
+module.exports = { getMovieDao, getmovieImagesDao }

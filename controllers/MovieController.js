@@ -27,8 +27,25 @@ const movie = async (req, res, next) => {
 
 }
 
+const movieImages = async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        const movieImages = await movieService.getMovieImages(id, res);
+        
+        res.status(200).json({movieImages : movieImages});
+    } catch (error) {
+        next(error);
+        await prisma.$disconnect();
+    } finally {        
+        await prisma.$disconnect();
+    }
+
+}
+
 const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { movie, error}
+module.exports = { movie, error, movieImages}
