@@ -3,14 +3,16 @@ const router = express.Router();
 
 const CommentController = require("../controllers/CommentController");
 
-router.get("/content/:movieId", CommentController.CommentSelect);
-router.get("/list/:movieId", CommentController.CommentList);
-router.post("/list/:movieId", CommentController.CommentAdd);
-router.put("/list/:movieId", CommentController.CommentModify);
-router.delete("/list/:movieId", CommentController.CommentDelete);
+router.get("/content", CommentController.CommentSelect);
+router.get("/", CommentController.CommentList);
+router.post("/", CommentController.CommentAdd);
+router.put("/", CommentController.CommentModify);
+router.delete("/", CommentController.CommentDelete);
+
 router.post("/like", CommentController.CommentLikePush);
-router.delete("/like/:commentId", CommentController.CommentLikeDelete);
-router.get("/like/:commentId", CommentController.CommentLikeGet);
+router.delete("/like", CommentController.CommentLikeDelete);
+router.get("/like", CommentController.CommentLikeGet);
+
 router.use("/", CommentController.error);
 
 module.exports = router;

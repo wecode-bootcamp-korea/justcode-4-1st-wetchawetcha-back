@@ -2,20 +2,20 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const CommentList = async (id) => {
+const CommentList = async (movieId) => {
   const CommentList = await prisma.$queryRaw`
   SELECT C.id ,C.name , A.comment ,(SELECT count(B.comment_id) from users_comments_likes B where comment_id = A.id group by B.comment_id) AS count 
         FROM 
         comments A 
         LEFT JOIN  users_comments_likes B on A.user_id = B.user_id
         LEFT JOIN users C on A.user_id = C.id
-        WHERE A.movie_id = ${id}
+        WHERE A.movie_id = ${movieId}
         GROUP BY  A.comment , A.id;`;
 
   return CommentList;
 };
 
-const commentRating = async (id) => {
+const commentRating = async (movieId) => {
   const CommentList = await prisma.$queryRaw`
   SELECT A.id , B.count , C.want 
         FROM 
@@ -23,9 +23,9 @@ const commentRating = async (id) => {
         LEFT JOIN  ratings B on A.id = B.user_id
         LEFT join wants C on A.id = C.user_id
         RIGHT JOIN comments D on A.id  = D.user_id 
-        WHERE C.movie_id is null or C.movie_id = ${id}
+        WHERE C.movie_id is null or C.movie_id = ${movieId}
         GROUP BY A.id , B.count, B.movie_id , C.want
-        HAVING movie_id is null or movie_id = ${id} 
+        HAVING movie_id is null or movie_id = ${movieId} 
 `;
   return CommentList;
 };
@@ -102,7 +102,6 @@ const CommentLikeGet = async (comment_id, id) => {
   FROM users_comments_likes B 
   WHERE comment_id = ${comment_id} 
   GROUP BY B.comment_id ;
-
 `;
   return CommentLikeGet;
 };

@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 const CommentList = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const movieId = req.query.movieId;
 
-    const CommentData = await CommentService.CommentList(id);
+    const CommentData = await CommentService.CommentList(movieId);
 
     res.status(201).json({ CommentData });
   } catch (error) {
@@ -20,15 +20,12 @@ const CommentList = async (req, res, next) => {
 
 const CommentAdd = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const movie_id = id;
-
-    const { comment } = req.body;
+    const { comment, movieId } = req.body;
 
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const CommentAdd = await CommentService.CommentAdd(movie_id, comment, 10);
+    const CommentAdd = await CommentService.CommentAdd(movieId, comment, 10);
 
     res.status(201).json({ SUCCESS: "COMMENT_INSERT" });
   } catch (error) {
@@ -41,13 +38,12 @@ const CommentAdd = async (req, res, next) => {
 
 const CommentSelect = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const movie_id = id;
+    const movieId = req.query.movieId;
 
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const CommentResult = await CommentService.CommentSelect(movie_id, 1);
+    const CommentResult = await CommentService.CommentSelect(movieId, 1);
 
     res.status(201).json({ CommentResult });
   } catch (error) {
@@ -60,16 +56,13 @@ const CommentSelect = async (req, res, next) => {
 
 const CommentModify = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const movie_id = id;
-
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const { comment } = req.body;
+    const { comment, movieId } = req.body;
 
     const CommentResult = await CommentService.CommentModify(
-      movie_id,
+      movieId,
       1,
       comment
     );
@@ -85,13 +78,12 @@ const CommentModify = async (req, res, next) => {
 
 const CommentDelete = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const movie_id = id;
+    const movieId = req.query.movieId;
 
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const CommentResult = await CommentService.CommentDelete(movie_id, 6);
+    const CommentResult = await CommentService.CommentDelete(movieId, 1);
 
     res.status(201).json({ SUCCESS: "COMMENT_DELETE" });
   } catch (error) {
@@ -104,12 +96,12 @@ const CommentDelete = async (req, res, next) => {
 
 const CommentLikePush = async (req, res, next) => {
   try {
-    const { comment_id } = req.body;
+    const { commentId } = req.body;
 
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const CommentResult = await CommentService.CommentLikePush(comment_id, 1);
+    const CommentResult = await CommentService.CommentLikePush(commentId, 1);
 
     res.status(201).json({ SUCCESS: "COMMENTLIKE_PLUS" });
   } catch (error) {
@@ -122,11 +114,11 @@ const CommentLikePush = async (req, res, next) => {
 
 const CommentLikeDelete = async (req, res, next) => {
   try {
-    const { comment_id } = req.params;
+    const commentId = req.query.commentId;
     //회원 아이디 받아오기
     //foundUser = req.foundUser;
 
-    const CommentResult = await CommentService.CommentLikeDelete(comment_id, 1);
+    const CommentResult = await CommentService.CommentLikeDelete(commentId, 1);
 
     res.status(201).json({ SUCCESS: "COMMENTLIKE_DELETE" });
   } catch (error) {
@@ -139,9 +131,9 @@ const CommentLikeDelete = async (req, res, next) => {
 
 const CommentLikeGet = async (req, res, next) => {
   try {
-    const { comment_id } = req.params;
+    const commentId = req.query.commentId;
 
-    const CommentLikeResult = await CommentService.CommentLikeGet(comment_id);
+    const CommentLikeResult = await CommentService.CommentLikeGet(commentId);
 
     res.status(201).json({ CommentLikeResult });
   } catch (error) {

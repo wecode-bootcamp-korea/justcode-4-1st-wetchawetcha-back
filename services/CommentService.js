@@ -1,9 +1,9 @@
 const CommontDao = require("../models/CommentDao");
 const errService = require("./errorService");
 
-const CommentList = async (id, res) => {
-  const CommentList = await CommontDao.CommentList(id);
-  const CommentRating = await CommontDao.commentRating(id);
+const CommentList = async (movieId, res) => {
+  const CommentList = await CommontDao.CommentList(movieId);
+  const CommentRating = await CommontDao.commentRating(movieId);
 
   const result = CommentList.map((value, index) => {
     return Object.assign(value, CommentRating[index]);
