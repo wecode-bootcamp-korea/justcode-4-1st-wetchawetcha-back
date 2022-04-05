@@ -3,6 +3,7 @@ const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const routes = require("./routes");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 
 const prisma = new PrismaClient();
@@ -13,6 +14,7 @@ const server = http.createServer(app);
 //app.use(cors);
 app.use(express.json());
 app.use(routes);
+app.use(cookieParser());
 
 const start = async () => {
     try {

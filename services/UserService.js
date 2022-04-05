@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken')
 const UserDao = require('../models/UserDao');
 
 const signUp = async (email, password, username) => {
@@ -33,4 +33,33 @@ const checkEmail = async email => {
   }
 };
 
-module.exports = { signUp, checkEmail };
+//채원 sigIn 코드
+const signIn = async (email, password) => {
+
+  const user = await UserDao.getUserByEmail(email) //
+  console.log('login id got: ', user[0].id)
+  
+  //email에 대한 정보가 존재하지 않는다면
+  if (user[0].length === 0) {
+      console.log("email문제")
+      const error = new Error('INVALID_USER')
+      error.statusCode = 400
+      throw error
+  }
+  console.log(user[0])
+  const checkPassword = bcrypt.compareSync(password, user[0].password); //db에 저장된 비밀번호 비교
+
+  //비밀번호가 틀렸을 때 
+  if (!checkPassword) {
+      console.log("비밀번호 틀림")
+      const error = new Error('INVALID_USER')
+      error.statusCode = 400
+      throw error
+  }
+      const token = jwt.sign(JSON.stringify(user[0].id), 'server_made_secret_key');
+      user.token = token;
+      return token;   //controller로 보냄
+
+}
+
+module.exports = { signUp, checkEmail, signIn };

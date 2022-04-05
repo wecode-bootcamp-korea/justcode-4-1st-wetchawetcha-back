@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const getUserByEmail = async email => {
   return await prisma.$queryRaw`
-		SELECT id FROM users WHERE email = ${email}
+		SELECT id, password FROM users WHERE email = ${email};
 	`;
 };
 
@@ -12,5 +12,6 @@ const createUser = async (email, encryptedPW, username) => {
 	INSERT INTO users(email, password, name) VALUES (${email}, ${encryptedPW},${username});
 	`;
 };
+
 
 module.exports = { getUserByEmail, createUser };
