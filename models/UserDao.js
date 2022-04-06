@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const getUserByEmail = async email => {
   return await prisma.$queryRaw`
-		SELECT id FROM users WHERE email = ${email}
+		SELECT id, password FROM users WHERE email = ${email};
 	`;
 };
 
@@ -13,4 +13,14 @@ const createUser = async (email, encryptedPW, username) => {
 	`;
 };
 
-module.exports = { getUserByEmail, createUser };
+
+const findUser = async (id) => {
+	const findUser = await prisma.$queryRaw`
+	SELECT id 
+	FROM users 
+	where id = ${id};`;
+  
+	return findUser;
+  };
+
+module.exports = { getUserByEmail, createUser ,findUser };
