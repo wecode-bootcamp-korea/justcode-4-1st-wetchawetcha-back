@@ -62,6 +62,12 @@ const CommentLikeGet = async (comment_id, res) => {
   return CommentLikeGet;
 };
 
+const CommentUserIdCheck = (userId, res) => {
+  if(userId === undefined || userId === null) {
+    errService.errorHandler(400, "undefined user", res);
+  }
+};
+
 module.exports = {
   CommentList,
   CommentAdd,
@@ -71,4 +77,5 @@ module.exports = {
   CommentLikePush,
   CommentLikeDelete,
   CommentLikeGet,
+  CommentUserIdCheck
 };
