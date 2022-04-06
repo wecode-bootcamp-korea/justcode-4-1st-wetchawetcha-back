@@ -1,8 +1,24 @@
+const MovieService = require("../services/MovieService");
 const movieService = require("../services/MovieService");
 const CarouselCategory = require("../services/MovieService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+
+const SearchMoviesByKeyword = async (req, res, next) => {
+    try {
+      const searchedMovies = await MovieService.SearchMoviesByKeyword(
+        req.query.search
+      );
+  
+      res.status(201).json({ searchedMovies });
+    } catch (error) {
+      next(error);
+      await prisma.$disconnect();
+    } finally {
+      await prisma.$disconnect();
+    }
+};
 
 const watchaCollection = async (req, res, next) => {
 
@@ -64,12 +80,11 @@ const movieImages = async (req, res, next) => {
 
 const Carousel = async (req, res, next) => {
   try {
-    const CarouselData = await CarouselCategory.CarouselCategory(
-      req.query.CategoryId,
-      req.query.limit
+    const searchedMovies = await MovieService.SearchMoviesByKeyword(
+      req.query.search
     );
 
-    res.status(201).json({ CarouselData });
+    res.status(201).json({ searchedMovies });
   } catch (error) {
     next(error);
     await prisma.$disconnect();
@@ -82,4 +97,4 @@ const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { movie, error, movieImages, watchaCollection, Carousel }
+module.exports = { movie, error, movieImages, watchaCollection, Carousel, SearchMoviesByKeyword }
