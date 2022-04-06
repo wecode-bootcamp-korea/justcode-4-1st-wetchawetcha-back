@@ -1,7 +1,7 @@
-const MoviesService = require("../services/MoviesService");
+const MovieService = require("../services/MovieService");
 const getPopularMovies = async (req, res) => {
   try {
-    const movies = await MoviesService.getPopularMovies();
+    const movies = await MovieService.getPopularMovies();
     res.status(200).json({ movies });
   } catch (err) {
     console.log(err);
