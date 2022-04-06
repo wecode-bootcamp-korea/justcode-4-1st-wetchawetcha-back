@@ -7,10 +7,7 @@ const want = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = undefined;
+        const userId = req.foundUser[0].id;
 
         const wantInfo = await wantService.getWant(movieId, userId);
 
@@ -24,17 +21,11 @@ const want = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
-*/
 const createWant = async (req, res, next) => {
 
     try {
         const { movieId } = req.body;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 1;
+        const userId = req.foundUser[0].id;
 
         await wantService.wantCheck(movieId, userId, res);
         await wantService.createWant(movieId, userId);
@@ -49,17 +40,11 @@ const createWant = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
-*/
 const updateWant = async (req, res, next) => {
 
     try {
         const { movieId, wantVal } = req.body;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 1;
+        const userId = req.foundUser[0].id;
 
         await wantService.wantCheck(movieId, userId, res);
         await wantService.updateWant(movieId, userId, wantVal);
