@@ -4,8 +4,8 @@ const errService = require("./errorService");
 
 
 
-const getSortedMoviesByWant = async () => {
-    return  await movieDao.getSortedMoviesByWant();
+const getSortedMoviesByWant = async (limit) => {
+    return  await movieDao.getSortedMoviesByWant(limit);
   };
 
 const getMovieByGenre= async (genreName) => {

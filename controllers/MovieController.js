@@ -15,7 +15,7 @@ const MoviesBy = async (req, res, next) => {
       res.status(200).json({ Movie });
     } else if (!!req.query["ordering"]) {
       if (req.query["ordering"] == "want") {
-        const movies = await movieService.getSortedMoviesByWant();
+        const movies = await movieService.getSortedMoviesByWant(req.query.limit);
         res.status(200).json({ movies });
       }
     } else if (!! req.query["category-id"]) {
@@ -24,7 +24,18 @@ const MoviesBy = async (req, res, next) => {
         req.query.limit
       );
       res.status(201).json({ movies });
+    } else if(!! req.query["grouping"]){
+        if(req.query["grouping"]=="category"){
+          const { partitionLimit } = req.query;
+
+          const watchaCollectionData = await movieService.getWatchaCollection(
+            partitionLimit,
+            res
+          );
+          res.status(200).json({ watchaCollectionData: watchaCollectionData });
+        }
     }
+
   } catch (error) {
     next(error);
     await prisma.$disconnect();
@@ -33,23 +44,6 @@ const MoviesBy = async (req, res, next) => {
   }
 };
 
-const watchaCollection = async (req, res, next) => {
-  try {
-    const { partitionLimit } = req.query;
-
-    const watchaCollectionData = await movieService.getWatchaCollection(
-      partitionLimit,
-      res
-    );
-
-    res.status(200).json({ watchaCollectionData: watchaCollectionData });
-  } catch (error) {
-    next(error);
-    await prisma.$disconnect();
-  } finally {
-    await prisma.$disconnect();
-  }
-};
 
 /*    
     -movie_story의 값 프론트에서 테스트 후 \r\n -> <br/> 필요시 변경    
@@ -97,6 +91,5 @@ module.exports = {
   movie,
   error,
   movieImages,
-  watchaCollection,
   MoviesBy,
 };

@@ -39,7 +39,7 @@ const getSortedMoviesByWant = async () => {
   return await prisma.$queryRaw`
   SELECT
   movies.name as name,
-  wants.movie_id AS movie_id,
+  wants.movie_id AS id,
   movies.poster_url as poster_url,
   movies.release_date AS release_date,
   movies_genre.genre_name AS genre_name,
@@ -51,8 +51,7 @@ const getSortedMoviesByWant = async () => {
   WHERE wants.want=1
   GROUP BY movie_id,want
   order by COUNT(movie_id) desc
-  limit 20;
-  `;
+  limit 20;`
 };
 
 const getWatchaCollectionDao = async (partitionLimit) => {
@@ -106,7 +105,7 @@ const getmovieImagesDao = async (id) => {
 const CategoryData = async (CategoryId, limit) => {
   const selectcategories = await prisma.$queryRaw`
     SELECT 
-    A.poster_url, A.release_date, A.name , B.country_name , C.genre_name , D.category_name 
+    A.id, A.name, A.poster_url, A.release_date , B.country_name , C.genre_name , D.category_name
     FROM movies A
     join movies_country B on  A.country_id = B.id
     join movies_genre C on A.genre_id = C.id

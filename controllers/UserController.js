@@ -68,8 +68,27 @@ const signIn = async (req, res) => {
   }
 }
 
+
+const verification = async (req, res) => {
+  try {
+   if(req.foundUser==null){
+   return res.status(201).json({ message: 'NOW_LOGOUT' });
+   }
+   else{
+    return res.status(201).json({ message: 'NOW_LOGIN' });
+   }
+  
+ 
+  }
+  catch (err) {
+    return res.status(err.statusCode || 500).json({ message: err.message })
+  }
+}
+
+
 module.exports = {
   signUp,
   getUser,
-  signIn
+  signIn,
+  verification
 };
