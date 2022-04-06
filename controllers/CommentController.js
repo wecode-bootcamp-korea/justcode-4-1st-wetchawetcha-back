@@ -21,7 +21,11 @@ const CommentList = async (req, res, next) => {
 const CommentAdd = async (req, res, next) => {
   try {
     const { comment, movieId } = req.body;
-    const userId = req.foundUser[0].id;
+    const userId = req.foundUser
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
     
     CommentService.CommentUserIdCheck(userId, res);
     const CommentAdd = await CommentService.CommentAdd(movieId, comment, userId);
@@ -38,8 +42,12 @@ const CommentAdd = async (req, res, next) => {
 const CommentSelect = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
-    const userId = req.foundUser[0].id;
-    
+    const userId = req.foundUser
+
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+
     CommentService.CommentUserIdCheck(userId, res);
 
     const CommentResult = await CommentService.CommentSelect(movieId, userId);
@@ -56,7 +64,11 @@ const CommentSelect = async (req, res, next) => {
 const CommentModify = async (req, res, next) => {
   try {    
     const { comment, movieId } = req.body;
-    const userId = req.foundUser[0].id;
+    const userId = req.foundUser
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
     
     CommentService.CommentUserIdCheck(userId, res);
 
@@ -78,7 +90,11 @@ const CommentModify = async (req, res, next) => {
 const CommentDelete = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
-    const userId = req.foundUser[0].id;
+    const userId = req.foundUser
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
     
     CommentService.CommentUserIdCheck(userId, res);
     const CommentResult = await CommentService.CommentDelete(movieId, userId);
@@ -95,7 +111,11 @@ const CommentDelete = async (req, res, next) => {
 const CommentLikePush = async (req, res, next) => {
   try {
     const { commentId } = req.body;
-    const userId = req.foundUser[0].id;
+    const userId = req.foundUser
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
     
     CommentService.CommentUserIdCheck(userId, res);
     const CommentResult = await CommentService.CommentLikePush(commentId, userId);
@@ -112,7 +132,11 @@ const CommentLikePush = async (req, res, next) => {
 const CommentLikeDelete = async (req, res, next) => {
   try {
     const commentId = req.query.commentId;
-    const userId = req.foundUser[0].id;
+    const userId = req.foundUser
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
     
     CommentService.CommentUserIdCheck(userId, res);
     const CommentResult = await CommentService.CommentLikeDelete(commentId, userId);
