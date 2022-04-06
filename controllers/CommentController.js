@@ -21,7 +21,7 @@ const CommentList = async (req, res, next) => {
 const CommentAdd = async (req, res, next) => {
   try {
     const { comment, movieId } = req.body;
-    const userId = req.foundUser
+    let userId = req.foundUser;
     
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
@@ -42,7 +42,7 @@ const CommentAdd = async (req, res, next) => {
 const CommentSelect = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
-    const userId = req.foundUser
+    let userId = req.foundUser;
 
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
@@ -64,7 +64,7 @@ const CommentSelect = async (req, res, next) => {
 const CommentModify = async (req, res, next) => {
   try {    
     const { comment, movieId } = req.body;
-    const userId = req.foundUser
+    let userId = req.foundUser;
     
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
@@ -90,7 +90,7 @@ const CommentModify = async (req, res, next) => {
 const CommentDelete = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
-    const userId = req.foundUser
+    let userId = req.foundUser;
     
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
@@ -111,7 +111,7 @@ const CommentDelete = async (req, res, next) => {
 const CommentLikePush = async (req, res, next) => {
   try {
     const { commentId } = req.body;
-    const userId = req.foundUser
+    let userId = req.foundUser;
     
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
@@ -132,7 +132,7 @@ const CommentLikePush = async (req, res, next) => {
 const CommentLikeDelete = async (req, res, next) => {
   try {
     const commentId = req.query.commentId;
-    const userId = req.foundUser
+    let userId = req.foundUser;
     
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
