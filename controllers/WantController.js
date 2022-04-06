@@ -7,7 +7,8 @@ const want = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
 
         const wantInfo = await wantService.getWant(movieId, userId);
 
@@ -25,7 +26,8 @@ const createWant = async (req, res, next) => {
 
     try {
         const { movieId } = req.body;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
 
         await wantService.wantCheck(movieId, userId, res);
         await wantService.createWant(movieId, userId);
@@ -44,7 +46,8 @@ const updateWant = async (req, res, next) => {
 
     try {
         const { movieId, wantVal } = req.body;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
 
         await wantService.wantCheck(movieId, userId, res);
         await wantService.updateWant(movieId, userId, wantVal);
