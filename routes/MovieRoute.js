@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const movieController = require("../controllers/MovieController");
+const CarouselApiController = require("../controllers/MovieController");
 
 router.get("/watcha-collection", movieController.watchaCollection);
 router.get("/category", CarouselApiController.Carousel);
