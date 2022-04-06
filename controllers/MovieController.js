@@ -1,4 +1,5 @@
 const movieService = require("../services/MovieService");
+const CarouselCategory = require("../services/MovieService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -19,6 +20,7 @@ const watchaCollection = async (req, res, next) => {
     }
 
 }
+
 /*    
     -movie_story의 값 프론트에서 테스트 후 \r\n -> <br/> 필요시 변경    
 */
@@ -60,8 +62,24 @@ const movieImages = async (req, res, next) => {
 
 }
 
+const Carousel = async (req, res, next) => {
+  try {
+    const CarouselData = await CarouselCategory.CarouselCategory(
+      req.query.CategoryId,
+      req.query.limit
+    );
+
+    res.status(201).json({ CarouselData });
+  } catch (error) {
+    next(error);
+    await prisma.$disconnect();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { movie, error, movieImages, watchaCollection }
+module.exports = { movie, error, movieImages, watchaCollection, Carousel }

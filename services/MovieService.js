@@ -1,4 +1,5 @@
 const movieDao = require("../models/MovieDao");
+const CarouselApiDao = require("../models/MovieDao");
 const errService = require("./errorService");
 
 const getWatchaCollection = async (partitionLimit, res) => {
@@ -26,4 +27,10 @@ const getMovieImages = async (id, res) => {
     return movieImagesData;
 }
 
-module.exports = { getMovie, getMovieImages, getWatchaCollection }
+const CarouselCategory = async (CategoryId, limit, res) => {
+    const CategoryData = await CarouselApiDao.CategoryData(CategoryId, limit);
+  
+    return CategoryData;
+};
+
+module.exports = { getMovie, getMovieImages, CarouselCategory, getWatchaCollection }
