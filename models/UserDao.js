@@ -14,4 +14,13 @@ const createUser = async (email, encryptedPW, username) => {
 };
 
 
-module.exports = { getUserByEmail, createUser };
+const findUser = async (id) => {
+	const findUser = await prisma.$queryRaw`
+	SELECT id 
+	FROM users 
+	where id = ${id};`;
+  
+	return findUser;
+  };
+
+module.exports = { getUserByEmail, createUser ,findUser };
