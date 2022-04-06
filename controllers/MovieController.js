@@ -80,11 +80,12 @@ const movieImages = async (req, res, next) => {
 
 const Carousel = async (req, res, next) => {
   try {
-    const searchedMovies = await MovieService.SearchMoviesByKeyword(
-      req.query.search
+    const CarouselData = await CarouselCategory.CarouselCategory(
+      req.query.CategoryId,
+      req.query.limit
     );
 
-    res.status(201).json({ searchedMovies });
+    res.status(201).json({ CarouselData });
   } catch (error) {
     next(error);
     await prisma.$disconnect();
