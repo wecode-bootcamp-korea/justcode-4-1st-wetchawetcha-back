@@ -58,6 +58,7 @@ const signIn = async (email, password) => {
   }
       const token = jwt.sign(JSON.stringify(user[0].id), 'server_made_secret_key');
       user.token = token;
+      console.log(token)
       return token;   //controller로 보냄
 
 }

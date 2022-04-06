@@ -4,7 +4,7 @@ const UserService = require('../services/UserService');
 const signUp = async (req, res) => {
   try {
     const { email, password, name } = req.body;
-
+    console.log(email)
     if (password == undefined || email == undefined || name == undefined) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
@@ -52,10 +52,11 @@ const signIn = async (req, res) => {
           token = infoToService
           return res
           .cookie("access_token", token, {
-            httpOnly: true})
+            httpOnly: true,
+            maxAge: 3000000})
           .status(200)
-          .json({ message: "Sign in succesful" });
-      } //service로 인풋값 전달
+          .json({ message: "Sign in succesful" });  //로그인 성공시 쿠키로 토큰 전송
+      } 
   }
   catch (err) {
       console.log(err)
