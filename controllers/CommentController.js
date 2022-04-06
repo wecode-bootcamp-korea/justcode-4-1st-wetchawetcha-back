@@ -21,11 +21,14 @@ const CommentList = async (req, res, next) => {
 const CommentAdd = async (req, res, next) => {
   try {
     const { comment, movieId } = req.body;
-
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
-
-    const CommentAdd = await CommentService.CommentAdd(movieId, comment, 10);
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+    
+    CommentService.CommentUserIdCheck(userId, res);
+    const CommentAdd = await CommentService.CommentAdd(movieId, comment, userId);
 
     res.status(201).json({ SUCCESS: "COMMENT_INSERT" });
   } catch (error) {
@@ -39,11 +42,15 @@ const CommentAdd = async (req, res, next) => {
 const CommentSelect = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
+    let userId = req.foundUser;
 
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
 
-    const CommentResult = await CommentService.CommentSelect(movieId, 1);
+    CommentService.CommentUserIdCheck(userId, res);
+
+    const CommentResult = await CommentService.CommentSelect(movieId, userId);
 
     res.status(201).json({ CommentResult });
   } catch (error) {
@@ -55,15 +62,19 @@ const CommentSelect = async (req, res, next) => {
 };
 
 const CommentModify = async (req, res, next) => {
-  try {
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
-
+  try {    
     const { comment, movieId } = req.body;
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+    
+    CommentService.CommentUserIdCheck(userId, res);
 
     const CommentResult = await CommentService.CommentModify(
       movieId,
-      1,
+      userId,
       comment
     );
 
@@ -79,11 +90,14 @@ const CommentModify = async (req, res, next) => {
 const CommentDelete = async (req, res, next) => {
   try {
     const movieId = req.query.movieId;
-
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
-
-    const CommentResult = await CommentService.CommentDelete(movieId, 1);
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+    
+    CommentService.CommentUserIdCheck(userId, res);
+    const CommentResult = await CommentService.CommentDelete(movieId, userId);
 
     res.status(201).json({ SUCCESS: "COMMENT_DELETE" });
   } catch (error) {
@@ -97,11 +111,14 @@ const CommentDelete = async (req, res, next) => {
 const CommentLikePush = async (req, res, next) => {
   try {
     const { commentId } = req.body;
-
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
-
-    const CommentResult = await CommentService.CommentLikePush(commentId, 1);
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+    
+    CommentService.CommentUserIdCheck(userId, res);
+    const CommentResult = await CommentService.CommentLikePush(commentId, userId);
 
     res.status(201).json({ SUCCESS: "COMMENTLIKE_PLUS" });
   } catch (error) {
@@ -115,10 +132,14 @@ const CommentLikePush = async (req, res, next) => {
 const CommentLikeDelete = async (req, res, next) => {
   try {
     const commentId = req.query.commentId;
-    //회원 아이디 받아오기
-    //foundUser = req.foundUser;
-
-    const CommentResult = await CommentService.CommentLikeDelete(commentId, 1);
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+    
+    CommentService.CommentUserIdCheck(userId, res);
+    const CommentResult = await CommentService.CommentLikeDelete(commentId, userId);
 
     res.status(201).json({ SUCCESS: "COMMENTLIKE_DELETE" });
   } catch (error) {

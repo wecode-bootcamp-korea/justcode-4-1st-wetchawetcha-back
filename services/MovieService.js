@@ -1,6 +1,18 @@
 const movieDao = require("../models/MovieDao");
+const MovieDao = require("../models/MovieDao");
 const CarouselApiDao = require("../models/MovieDao");
 const errService = require("./errorService");
+
+const SearchMoviesByKeyword = async (keyword) => {
+    const MovieDatas = await MovieDao.getMovies_Search(keyword);
+    
+    const searchedMovies={
+  "keyword":keyword,
+  "MovieList":MovieDatas
+    }
+  
+    return searchedMovies;
+};
 
 const getWatchaCollection = async (partitionLimit, res) => {
     if(partitionLimit <= 0 || partitionLimit > 12) {
@@ -33,4 +45,4 @@ const CarouselCategory = async (CategoryId, limit, res) => {
     return CategoryData;
 };
 
-module.exports = { getMovie, getMovieImages, CarouselCategory, getWatchaCollection }
+module.exports = { getMovie, getMovieImages, CarouselCategory, getWatchaCollection, SearchMoviesByKeyword }
