@@ -2,6 +2,13 @@ const movieDao = require("../models/MovieDao");
 const CarouselApiDao = require("../models/MovieDao");
 const errService = require("./errorService");
 
+const getWatchaCollection = async (partitionLimit, res) => {
+    if(partitionLimit <= 0 || partitionLimit > 12) {
+        errService.errorHandler(400, "BAD_REQUEST", res);
+    }
+    return await movieDao.getWatchaCollectionDao(partitionLimit);
+}
+
 const getMovie = async (id, res) => {
     const movieData = await movieDao.getMovieDao(id);
 
@@ -26,4 +33,4 @@ const CarouselCategory = async (CategoryId, limit, res) => {
     return CategoryData;
 };
 
-module.exports = { getMovie, getMovieImages, CarouselCategory }
+module.exports = { getMovie, getMovieImages, CarouselCategory, getWatchaCollection }

@@ -4,8 +4,25 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const watchaCollection = async (req, res, next) => {
+
+    try {
+        const { partitionLimit } = req.query;
+
+        const watchaCollectionData = await movieService.getWatchaCollection(partitionLimit, res);
+        
+        res.status(200).json({watchaCollectionData : watchaCollectionData});
+    } catch (error) {
+        next(error);
+        await prisma.$disconnect();
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
+
 /*    
-    -movie_story의 값 프론트에서 테스트 후 \r\n -> <br/> 필요시 변경w    
+    -movie_story의 값 프론트에서 테스트 후 \r\n -> <br/> 필요시 변경    
 */
 const movie = async (req, res, next) => {
 
@@ -65,4 +82,4 @@ const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { movie, error, movieImages, Carousel }
+module.exports = { movie, error, movieImages, watchaCollection, Carousel }

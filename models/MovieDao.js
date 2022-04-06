@@ -2,6 +2,30 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const getWatchaCollectionDao = async (partitionLimit) => {
+    return await prisma.$queryRaw`
+        select 
+            mcra.movie_id,
+            mcra.category_id,
+            ct.category_name,
+            mcra.movie_rank,
+            mo.poster_url
+        from (
+            select
+                id,
+                category_id,
+                movie_id,
+                rank() over (partition by mc.category_id order by mc.id) movie_rank
+            from movies_categories mc
+        ) mcra
+        join categories ct
+        on mcra.category_id = ct.id
+        join movies mo
+        on mo.id = mcra.movie_id
+        where mcra.movie_rank <= ${partitionLimit}
+        order by mcra.category_id, mcra.movie_rank`
+}
+
 const getMovieDao = async (id) => {
     return prisma.$queryRaw`
     select 
@@ -42,4 +66,4 @@ const CategoryData = async (CategoryId, limit) => {
   return selectcategories;
 };
 
-module.exports = { getMovieDao, getmovieImagesDao, CategoryData }
+module.exports = { getMovieDao, getmovieImagesDao, CategoryData, getWatchaCollectionDao }
