@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cors = require("cors");
 
+
 const testRouter = require('./testRoute');
 const movieRoute = require('./MovieRoute');
 const ratingsRoute = require('./RatingsRoute');
