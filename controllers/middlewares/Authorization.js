@@ -1,17 +1,20 @@
 const { UserDao } = require('../../models/UserDao');
 
+const jwt = require('jsonwebtoken')//채원님 이게 없었어요
+
 const Authorization = (req, res, next) => {
     try {
-    console.log('success')
-    const token = req.cookies.access_token;
-    console.log(token)
+      
+    const cookies = parseCookies(req.headers.cookie);
+    token=cookies.access_token;
+    
   if (!token) {
       console.log('INVALID_TOKEN')
     return res.sendStatus(403).json({ message: "INVALID_TOKEN"});
   }
-    const data = jwt.verify(token, 'server_made_secret_key');
+    const data = jwt.verify(token, 'server_made_secret_key')
     req.id = data.id;
-    console.log(token)
+
     // const data = jwt.verify(token, 'server_made_secret_key', (error, decoded) => {
     //     if (error) {
     //       return res.status(400).json({ message: "WRONG_TOKEN" });
@@ -28,4 +31,22 @@ const Authorization = (req, res, next) => {
   }
 };
 
+const parseCookies = ( cookie = '' ) => {
+  console.log("cookie : ",cookie);
+  return cookie
+      .split(';')
+      .map( v => v.split('=') )
+      .map( ([k, ...vs]) => [k, vs.join('=')] )
+      .reduce( (acc, [k,v]) => {
+          acc[k.trim()] = decodeURIComponent(v);
+          return acc;
+      }, {});
+}
+
+
 module.exports = { Authorization }
+
+
+
+
+ 

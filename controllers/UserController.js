@@ -3,6 +3,7 @@ const UserService = require('../services/UserService');
 
 const signUp = async (req, res) => {
   try {
+    res.setHeader("Access-Control-AlLow-Origin", "*")
     const { email, password, name } = req.body;
     console.log(email)
     if (password == undefined || email == undefined || name == undefined) {
@@ -21,6 +22,7 @@ const signUp = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+  res.setHeader("Access-Control-AlLow-Origin", "*")
   if (req.query.email != undefined) {
     const hasEmailInDB = await UserService.checkEmail(req.query.email);
     if (hasEmailInDB == true) {
@@ -37,8 +39,10 @@ const getUser = async (req, res) => {
 
 const signIn = async (req, res) => {
   try {
-
+    res.setHeader("Access-Control-AlLow-Origin", "*")
       const { email, password } = req.body
+
+      console.log(req.body)
 
       //입력값이 없다면 생기는 에러
       if (password == undefined || email == undefined) {
