@@ -1,6 +1,10 @@
 const ratingsDao = require("../models/RatingsDao");
 const errService = require("./errorService");
 
+const getAllRatings = async () => {
+    return await ratingsDao.getRatingsDao();
+}
+
 const getMovieRatings = async (movieId) => {
     return await ratingsDao.getMovieRatingsDao(movieId);
 }
@@ -52,4 +56,4 @@ const deleteRating = async (movieId, userId) => {
     await ratingsDao.deleteRatingDao(movieId, userId);
 }
 
-module.exports = { ratingCheck, createRating, updateRating, deleteRating, getMovieRatings, getUserRating }
+module.exports = { ratingCheck, createRating, updateRating, deleteRating, getMovieRatings, getUserRating, getAllRatings }

@@ -2,6 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const getRatingsDao = async () => {
+    return await prisma.$queryRaw`
+        select count(id) ratings_all from ratings`
+}
+
 const getMovieRatingsDao = async (movieId) => {
     return await prisma.$queryRaw`
         select 
@@ -44,4 +49,4 @@ const deleteRatingDao = async (movieId, userId) => {
         delete from ratings where user_id = ${userId} and movie_id = ${movieId}`
 }
 
-module.exports = { getuserDao, getmovieDao, createRatingDao, updateRatingDao, deleteRatingDao, getMovieRatingsDao, getUserRatingDao }
+module.exports = { getuserDao, getmovieDao, createRatingDao, updateRatingDao, deleteRatingDao, getMovieRatingsDao, getUserRatingDao, getRatingsDao }

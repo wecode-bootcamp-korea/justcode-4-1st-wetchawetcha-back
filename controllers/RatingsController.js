@@ -3,6 +3,21 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const allRatings = async (req, res, next) => {
+
+    try {
+        const allRatings = await ratingsService.getAllRatings();
+        
+        res.status(200).json({allRatings : allRatings});
+    } catch (error) {
+        next(error);
+        await prisma.$disconnect();
+    } finally {
+        await prisma.$disconnect();
+    }
+
+}
+
 const movieRatings = async (req, res, next) => {
 
     try {
@@ -98,4 +113,4 @@ const error = (err, req, res, next) => {
     console.error(err);
 }
 
-module.exports = { error, createRating, updateRating, deleteRating, movieRatings, userRating }
+module.exports = { error, createRating, updateRating, deleteRating, movieRatings, userRating, allRatings }
