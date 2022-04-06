@@ -20,18 +20,12 @@ const movieRatings = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())
-*/
 const userRating = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 1;
-
+        const userId = req.foundUser[0].id;
+        
         const userRatingInfo = await ratingsService.getUserRating(movieId, userId);
 
         res.status(200).json({userRatingInfo : userRatingInfo});
@@ -44,17 +38,11 @@ const userRating = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
-*/
 const createRating = async (req, res, next) => {
 
     try {
         const { movieId, ratingVal } = req.body;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 5;
+        const userId = req.foundUser[0].id;
 
         await ratingsService.ratingCheck(ratingVal, movieId, userId, res);
         await ratingsService.createRating(ratingVal, movieId, userId, res);
@@ -69,17 +57,11 @@ const createRating = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())
-*/
 const updateRating = async (req, res, next) => {
 
     try {
         const { movieId, ratingVal } = req.body;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 5;
+        const userId = req.foundUser[0].id;
 
         await ratingsService.ratingCheck(ratingVal, movieId, userId, res);
         await ratingsService.updateRating(ratingVal, movieId, userId, res);
@@ -94,17 +76,11 @@ const updateRating = async (req, res, next) => {
 
 }
 
-/*
-    -로그인 유/무 미들웨어 필요 (유 : userId 할당, 무 : next())    
-*/
 const deleteRating = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-
-        //const userId = req.headers.userid;
-        //임시유저세팅
-        const userId = 5;
+        const userId = req.foundUser[0].id;
         
         await ratingsService.deleteRating(movieId, userId);
 
