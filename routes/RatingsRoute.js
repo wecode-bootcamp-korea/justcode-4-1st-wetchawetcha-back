@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ratingsController = require("../controllers/RatingsController");
 
-router.get("/users-ratings/", ratingsController.allRatings);
+router.get("/users-ratings", ratingsController.allRatings);
 router.get("/movie-ratings/:movieId", ratingsController.movieRatings);
 router.get("/:movieId", ratingsController.userRating);
 router.post("/", ratingsController.createRating);
