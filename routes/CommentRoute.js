@@ -2,15 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const CommentController = require("../controllers/CommentController");
+const authorMiddleware = require("../controllers/middlewares/Authorization");
 
-router.get("/content", CommentController.CommentSelect);
+router.get("/content", authorMiddleware.Authorization, CommentController.CommentSelect);
 router.get("/", CommentController.CommentList);
-router.post("/", CommentController.CommentAdd);
-router.put("/", CommentController.CommentModify);
-router.delete("/", CommentController.CommentDelete);
+router.post("/", authorMiddleware.Authorization, CommentController.CommentAdd);
+router.put("/", authorMiddleware.Authorization, CommentController.CommentModify);
+router.delete("/", authorMiddleware.Authorization, CommentController.CommentDelete);
 
-router.post("/like", CommentController.CommentLikePush);
-router.delete("/like", CommentController.CommentLikeDelete);
+router.post("/like", authorMiddleware.Authorization, CommentController.CommentLikePush);
+router.delete("/like", authorMiddleware.Authorization, CommentController.CommentLikeDelete);
 router.get("/like", CommentController.CommentLikeGet);
 
 router.use("/", CommentController.error);
