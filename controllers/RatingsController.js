@@ -39,7 +39,8 @@ const userRating = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
         
         const userRatingInfo = await ratingsService.getUserRating(movieId, userId);
 
@@ -57,7 +58,8 @@ const createRating = async (req, res, next) => {
 
     try {
         const { movieId, ratingVal } = req.body;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
 
         await ratingsService.ratingCheck(ratingVal, movieId, userId, res);
         await ratingsService.createRating(ratingVal, movieId, userId, res);
@@ -76,7 +78,8 @@ const updateRating = async (req, res, next) => {
 
     try {
         const { movieId, ratingVal } = req.body;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
 
         await ratingsService.ratingCheck(ratingVal, movieId, userId, res);
         await ratingsService.updateRating(ratingVal, movieId, userId, res);
@@ -95,7 +98,8 @@ const deleteRating = async (req, res, next) => {
 
     try {
         const { movieId } = req.params;
-        const userId = req.foundUser[0].id;
+        let userId;
+        req.foundUser !== null ? userId = req.foundUser[0].id : userId = req.foundUser;
         
         await ratingsService.deleteRating(movieId, userId);
 
