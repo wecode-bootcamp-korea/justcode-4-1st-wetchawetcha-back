@@ -75,11 +75,11 @@ const verification = async (req, res) => {
    return res.status(201).json({ message: 'NOW_LOGOUT' });
    }
    else{
-     console.log("nowlogin")
-    return res.status(201).json({ message: 'NOW_LOGIN' });
+  
+    return res.status(201).json({ message: 'NOW_LOGIN', user_name:  await req.foundUser[0].name });
    }
   
- 
+
   }
   catch (err) {
     return res.status(err.statusCode || 500).json({ message: err.message })

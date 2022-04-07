@@ -8,7 +8,7 @@ const Authorization = async (req, res, next) => {
     const cookies = parseCookies(req.headers.cookie);
     const token = cookies.access_token;
 
-    if (!token) {
+    if (!token||token=="") {
       req.foundUser = null; 
       next();
     }else{
