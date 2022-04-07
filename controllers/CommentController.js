@@ -157,6 +157,7 @@ const CommentLikeGet = async (req, res, next) => {
     const CommentLikeResult = await CommentService.CommentLikeGet(commentId);
 
     res.status(201).json({ CommentLikeResult });
+
   } catch (error) {
     next(error);
     await prisma.$disconnect();
@@ -164,6 +165,32 @@ const CommentLikeGet = async (req, res, next) => {
     await prisma.$disconnect();
   }
 };
+
+
+
+const CommentLikeCheck = async (req, res, next) => {
+  try {
+    const commentId = req.query.commentId;
+    let userId = req.foundUser;
+    
+    if(req.foundUser !== null) {
+      userId = req.foundUser[0].id;
+    }
+
+    CommentService.CommentUserIdCheck(userId, res);
+    
+    const CommentLike  = await CommentService.CommentLikeCheck(commentId ,userId);
+    res.status(201).json({ CommentLike});
+
+  } catch (error) {
+    next(error);
+    await prisma.$disconnect();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+
 
 const error = (err, req, res, next) => {
   console.error(err);
@@ -179,4 +206,5 @@ module.exports = {
   CommentLikePush,
   CommentLikeDelete,
   CommentLikeGet,
+  CommentLikeCheck
 };
