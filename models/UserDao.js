@@ -16,7 +16,8 @@ const createUser = async (email, encryptedPW, username) => {
 
 const findUser = async (id) => {
 	const findUser = await prisma.$queryRaw`
-	SELECT id 
+	SELECT users.id AS id,
+	users.name AS name
 	FROM users 
 	where id = ${id};`;
   
