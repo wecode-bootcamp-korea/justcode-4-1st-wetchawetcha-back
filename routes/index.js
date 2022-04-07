@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const cors = require("cors");
 
+
 const testRouter = require('./testRoute');
 const movieRoute = require('./MovieRoute');
 const ratingsRoute = require('./RatingsRoute');
 const UserRouter = require('./UserRoute');
 const CommentRoute = require("./CommentRoute");
 const wantRoute = require('./WantRoute');
+
 
 router.use(cors());
 router.use('/movie', movieRoute);
