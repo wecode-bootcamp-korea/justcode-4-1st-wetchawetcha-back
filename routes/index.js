@@ -10,6 +10,7 @@ const UserRouter = require('./UserRoute');
 const CommentRoute = require("./CommentRoute");
 const wantRoute = require('./WantRoute');
 
+
 router.use(cors());
 router.use('/movie', movieRoute);
 router.use('/rating', ratingsRoute);
