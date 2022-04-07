@@ -13,7 +13,7 @@ router.delete("/", authorMiddleware.Authorization, CommentController.CommentDele
 router.post("/like", authorMiddleware.Authorization, CommentController.CommentLikePush);
 router.delete("/like", authorMiddleware.Authorization, CommentController.CommentLikeDelete);
 router.get("/like", CommentController.CommentLikeGet);
-
+router.get("/like/check",  authorMiddleware.Authorization,CommentController.CommentLikeCheck);
 router.use("/", CommentController.error);
 
 module.exports = router;

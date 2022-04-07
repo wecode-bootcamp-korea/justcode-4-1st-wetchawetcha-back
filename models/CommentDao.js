@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const CommentList = async (movieId) => {
   const CommentList = await prisma.$queryRaw`
-  SELECT C.id ,C.name , A.comment ,(SELECT count(B.comment_id) from users_comments_likes B where comment_id = A.id group by B.comment_id) AS count 
+  SELECT A.id AS comment_id, C.id ,C.name , A.comment ,(SELECT count(B.comment_id) from users_comments_likes B where comment_id = A.id group by B.comment_id) AS count 
         FROM 
         comments A 
         LEFT JOIN  users_comments_likes B on A.user_id = B.user_id
@@ -80,6 +80,7 @@ const CommentDelete = async (movie_id, id) => {
 };
 
 const CommentLikePush = async (comment_id, id) => {
+
   const CommentLikePush = await prisma.$queryRaw`
   INSERT INTO users_comments_likes 
   (comment_id, user_id) values(${comment_id}, ${id});
@@ -106,6 +107,15 @@ const CommentLikeGet = async (comment_id, id) => {
   return CommentLikeGet;
 };
 
+const CommentLikeCheck = async (comment_id, user_id) => {
+  const CommentLikeGet = await prisma.$queryRaw`
+  SELECT users_comments_likes.id
+  FROM users_comments_likes
+  WHERE users_comments_likes.comment_id = ${comment_id} AND users_comments_likes.user_id = ${ user_id};
+`;
+  return CommentLikeGet;
+};
+
 module.exports = {
   CommentList,
   commentRating,
@@ -118,4 +128,5 @@ module.exports = {
   CommentLikePush,
   CommentLikeDelete,
   CommentLikeGet,
+  CommentLikeCheck
 };

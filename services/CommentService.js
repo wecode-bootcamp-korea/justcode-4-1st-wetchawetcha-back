@@ -62,11 +62,19 @@ const CommentLikeGet = async (comment_id, res) => {
   return CommentLikeGet;
 };
 
+
+const CommentLikeCheck=async (comment_id,user_id)=>{
+  const CommentLike = await CommontDao.CommentLikeCheck(comment_id,user_id);
+  return CommentLike;
+}
+
 const CommentUserIdCheck = (userId, res) => {
   if(userId === undefined || userId === null) {
     errService.errorHandler(400, "undefined user", res);
   }
 };
+
+
 
 module.exports = {
   CommentList,
@@ -77,5 +85,6 @@ module.exports = {
   CommentLikePush,
   CommentLikeDelete,
   CommentLikeGet,
-  CommentUserIdCheck
+  CommentUserIdCheck,
+  CommentLikeCheck
 };
