@@ -56,8 +56,7 @@ const signIn = async (req, res) => {
           token = infoToService
           return res
           .cookie("access_token", token, {
-            httpOnly: true,
-            maxAge: 3000000})
+            httpOnly: true})
           .status(200)
           .json({ message: "Sign in succesful" });  //로그인 성공시 쿠키로 토큰 전송
       } 
@@ -72,9 +71,11 @@ const signIn = async (req, res) => {
 const verification = async (req, res) => {
   try {
    if(req.foundUser==null){
+    console.log("nowout")
    return res.status(201).json({ message: 'NOW_LOGOUT' });
    }
    else{
+     console.log("nowlogin")
     return res.status(201).json({ message: 'NOW_LOGIN' });
    }
   
