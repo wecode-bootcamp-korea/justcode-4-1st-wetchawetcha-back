@@ -26,8 +26,9 @@ const createWantDao = async (movieId, userId) => {
 }
 
 const updateWantDao = async (movieId, userId, wantVal) => {
+    console.log(wantVal)
     await prisma.$queryRaw`
-        update wants set want = ${!wantVal} where user_id = ${userId} and movie_id = ${movieId}`
+        update wants set want = ${wantVal} where user_id = ${userId} and movie_id = ${movieId}`
 }
 
 module.exports = { getuserDao, getmovieDao, createWantDao, updateWantDao, getWantDao }

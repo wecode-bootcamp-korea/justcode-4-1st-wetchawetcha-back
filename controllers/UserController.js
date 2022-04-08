@@ -71,7 +71,7 @@ const signIn = async (req, res) => {
 const verification = async (req, res) => {
   try {
    if(req.foundUser==null){
-    console.log("nowout")
+     
    return res.status(201).json({ message: 'NOW_LOGOUT' });
    }
    else{
