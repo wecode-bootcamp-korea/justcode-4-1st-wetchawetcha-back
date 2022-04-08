@@ -46,7 +46,7 @@ const signIn = async (email, password) => {
       error.statusCode = 400
       throw error
   }
-  console.log(user[0])
+
   const checkPassword = bcrypt.compareSync(password, user[0].password); //db에 저장된 비밀번호 비교
 
   //비밀번호가 틀렸을 때 
@@ -56,11 +56,18 @@ const signIn = async (email, password) => {
       error.statusCode = 400
       throw error
   }
-      const token = jwt.sign(JSON.stringify(user[0].id), 'server_made_secret_key');
+      const token = jwt.sign(JSON.stringify(user[0].id), process.env.SECRET_KEY);
       user.token = token;
-      console.log(token)
+
       return token;   //controller로 보냄
 
 }
 
-module.exports = { signUp, checkEmail, signIn };
+
+const findUser = async (id) => {
+  const findUser = await UserDao.findUser(id);
+
+  return findUser;
+};
+
+module.exports = { signUp, checkEmail, signIn,findUser  };

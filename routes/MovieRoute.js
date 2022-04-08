@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const CarouselApiController = require("../controllers/MovieController");
+const movieController = require("../controllers/MovieController");
 
-router.get("/category", CarouselApiController.Carousel);
-router.use("/", CarouselApiController.error);
+
+router.get("/", movieController.MoviesBy);
+router.get("/:id", movieController.movie);
+router.get("/images/:id", movieController.movieImages);
+router.use("/", movieController.error);
 
 module.exports = router;

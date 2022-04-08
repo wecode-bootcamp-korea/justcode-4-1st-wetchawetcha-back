@@ -1,28 +1,49 @@
 const { UserDao } = require("../../models/UserDao");
-
+const UserService = require("../../services/UserService");
 const jwt = require("jsonwebtoken"); //채원님 이게 없었어요
 
-const Authorization = (req, res, next) => {
+const Authorization = async (req, res, next) => {
   try {
-    res.setHeader("Access-Control-AlLow-Origin", "*");
+
     const cookies = parseCookies(req.headers.cookie);
-    token = cookies.access_token;
+    const token = cookies.access_token;
 
-    if (!token) {
-      console.log("INVALID_TOKEN");
-      return res.sendStatus(403).json({ message: "INVALID_TOKEN" });
+    if (!token||token=="") {
+      req.foundUser = null; 
+      next();
+    }else{
+      const data = jwt.verify(token, process.env.SECRET_KEY,  (error, decoded) => {
+
+        if (error) {
+          return res.status(400).json({ message: "WRONG_TOKEN" });
+        }
+        if (decoded) {
+    
+          user_info = jwt.verify(token,process.env.SECRET_KEY);
+       
+        }
+      });
+
+      const foundUser = await UserService.findUser(user_info);
+
+      if (!foundUser) {
+        // 이 토큰을 가진 유저가 데이터베이스에 없으면 404 에러를 냅니다.
+        return res.status(404).json({ message: "USER_NOT_FOUND" });
+      }else{
+
+        req.foundUser = foundUser; 
+        next();
+
+      }
+
     }
-    const data = jwt.verify(token, "server_made_secret_key");
-    req.id = data.id;
-
-    return next();
   } catch {
     return res.sendStatus(403);
   }
 };
 
+
 const parseCookies = (cookie = "") => {
-  console.log("cookie : ", cookie);
   return cookie
     .split(";")
     .map(v => v.split("="))
