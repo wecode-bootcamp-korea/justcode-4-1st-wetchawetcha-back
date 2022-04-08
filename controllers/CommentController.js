@@ -171,11 +171,12 @@ const CommentLikeGet = async (req, res, next) => {
 const CommentLikeCheck = async (req, res, next) => {
   try {
     const commentId = req.query.commentId;
-    let userId = req.foundUser;
-    
+
+   let userId=0;
     if(req.foundUser !== null) {
       userId = req.foundUser[0].id;
     }
+  else{userId=null}
 
     CommentService.CommentUserIdCheck(userId, res);
     
