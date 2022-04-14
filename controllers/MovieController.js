@@ -5,36 +5,15 @@ const prisma = new PrismaClient();
 
 const MoviesBy = async (req, res, next) => {
   try {
-    if (!!req.query.search) {
-      const searchedMovies = await movieService.SearchMoviesByKeyword(
-        req.query.search
-      );
-      res.status(201).json({ searchedMovies });
-    } else if (!!req.query["genre-name"]) {
-      const Movie = await movieService.getMovieByGenre(req.query["genre-name"]);
-      res.status(200).json({ Movie });
-    } else if (!!req.query["ordering"]) {
-      if (req.query["ordering"] == "want") {
-        const movies = await movieService.getSortedMoviesByWant(req.query.limit);
-        res.status(200).json({ movies });
-      }
-    } else if (!! req.query["category-id"]) {
-      const movies = await movieService.getMovieByCategory(
-        req.query["category-id"],
-        req.query.limit
-      );
-      res.status(201).json({ movies });
-    } else if(!! req.query["grouping"]){
-        if(req.query["grouping"]=="category"){
-          const { partitionLimit } = req.query;
-
-          const watchaCollectionData = await movieService.getWatchaCollection(
-            partitionLimit,
-            res
-          );
-          res.status(200).json({ watchaCollectionData: watchaCollectionData });
-        }
+    const serviceQueries = {
+      'search':()=>  movieService.SearchMoviesByKeyword(req.query.search),
+      'genre-name':()=> movieService.getMovieByGenre(req.query["genre-name"]),
+      'ordering':()=> movieService.getSortedMoviesByWant(req.query.limit),
+      'category-id':()=> movieService.getMovieByCategory(req.query["category-id"],req.query.limit),
+      'grouping':()=> movieService.getWatchaCollection(req.query.partitionLimit,res)
     }
+     const movies= await serviceQueries[Object.keys(req.query)[0]]();
+    res.status(200).json({ movies });
 
   } catch (error) {
     next(error);
